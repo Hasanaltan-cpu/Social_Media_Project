@@ -18,6 +18,8 @@ namespace SM_InfrastuctureLayer.Context
         public DbSet<AppRole> AppRoles { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<Share> Shares { get; set; }
+        public DbSet<Follow> Follows { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder builder)

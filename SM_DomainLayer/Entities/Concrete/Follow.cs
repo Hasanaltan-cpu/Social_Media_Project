@@ -14,11 +14,13 @@ namespace SM_DomainLayer.Entities.Concrete
         [ForeignKey("FollowerId")]
         [InverseProperty("Followers")]
 
+
+
         public AppUser Follower { get; set; }
 
         public int FollowingId { get; set; }
         [ForeignKey("FollowingId")]
-        [InverseProperty("Following")]
+        [InverseProperty("Followings")]
 
         public AppUser Following { get; set; }
 
