@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 using SM_ApplicationLayer.Models.DTOs;
 using SM_ApplicationLayer.Services.Abstract;
 using SM_DomainLayer.Entities.Concrete;
@@ -33,14 +36,56 @@ namespace SM_ApplicationLayer.Services.Concrete
 
         }
 
-        public Task DeleteUser(params object[] parameters)
+        public async Task DeleteUser(params object[] parameters)
         {
-            throw new NotImplementedException();
+            await _unitOfWork.ExecuteSqlRaw("spDeleteUsers {0}", parameters);
         }
 
-        public Task EditUser(EditProfileDto id)
+        public async Task EditUser(EditProfileDto model)
         {
-            throw new NotImplementedException();
+            var user = await _unitOfWork.AppUser.GetById(model.Id);
+            if (user != null)
+            {
+                if (model.Image != null)
+                {
+                    using var image = Image.Load(model.Image.OpenReadStream());
+                    image.Mutate(x => x.Resize(256, 256));
+                    image.Save("wwwroot/images/users/" + user.UserName + ".jpg");
+                    user.ImagePath = ("/images/users/" + user.UserName + ".jpg");
+                    _unitOfWork.AppUser.Update(user);
+                    await _unitOfWork.Commit();
+                }
+
+                if (model.Password != null)
+                {
+                    user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, model.Password);
+                    await _userManager.UpdateAsync(user);
+                }
+                if (model.UserName != user.UserName)
+                {
+                    var isUserNameExist = await _userManager.FindByNameAsync(model.UserName);
+
+                    if (isUserNameExist == null)
+                    {
+                        await _userManager.SetUserNameAsync(user, model.UserName);
+                        user.UserName = model.UserName;
+                        await _signInManager.SignInAsync(user, isPersistent: true);
+                    }
+                }
+                if (model.Name != user.Name)
+                {
+                    user.Name = model.Name;
+                    _unitOfWork.AppUser.Update(user);
+                    await _unitOfWork.Commit();
+                }
+                if (model.Email != user.Email)
+                {
+                    var isEmailExist = await _userManager.FindByEmailAsync(model.Email);
+                    if (isEmailExist == null)
+                        await _userManager.SetEmailAsync(user, model.Email);
+                }
+
+            };
         }
 
         public AuthenticationProperties ExternalLogin(string provider, string redirectUrl)
@@ -58,14 +103,28 @@ namespace SM_ApplicationLayer.Services.Concrete
             throw new NotImplementedException();
         }
 
-        public Task<EditProfileDto> GetById(int id)
+        public async Task<EditProfileDto> GetById(int id)
         {
-            throw new NotImplementedException();
+            var user = await _unitOfWork.AppUser.GetById(id);
+
+            return _mapper.Map<EditProfileDto>(user);
         }
 
-        public Task<ProfileSummaryDto> GetByName(string userName)
+        public async Task<ProfileSummaryDto> GetByName(string userName)
         {
-            throw new NotImplementedException();
+            var user = await _unitOfWork.AppUser.GetFilteredFirstorDefault(
+                selector: y => new ProfileSummaryDto
+                {
+                    UserName = y.UserName,
+                    Name = y.Name,
+                    ImagePath = y.ImagePath,
+                    PostsCount = y.Posts.Count,
+                    FollowersCount = y.Followers.Count,
+                    FollowingsCount = y.Followings.Count
+                },
+                predicate: x => x.UserName == userName);
+
+            return user; ;
         }
 
         public Task<ExternalLoginInfo> GetExternalLoginInfo()
@@ -73,39 +132,93 @@ namespace SM_ApplicationLayer.Services.Concrete
             throw new NotImplementedException();
         }
 
-        public Task<SignInResult> Login(LoginDto model)
+        public async Task<SignInResult> Login(LoginDto model)
         {
-            throw new NotImplementedException();
+
+            var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
+
+            return result;
         }
 
-        public Task LogOut()
+        public async Task LogOut()
         {
-            throw new NotImplementedException();
+            await _signInManager.SignOutAsync();
         }
 
-        public Task<IdentityResult> Register(RegisterDto model)
+        public async Task<IdentityResult> Register(RegisterDto model)
         {
-            throw new NotImplementedException();
+            var user = _mapper.Map<AppUser>(model);
+
+            var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (result.Succeeded)
+            {
+                await _signInManager.SignInAsync(user, isPersistent: false);
+            }
+
+            return result; ;
         }
 
-        public Task<List<SearchUserDto>> SearchUser(string keyword, int pageIndex)
+        public async Task<List<SearchUserDto>> SearchUser(string keyword, int pageIndex)
         {
-            throw new NotImplementedException();
+            var users = await _unitOfWork.AppUser.GetFilteredList(
+                selector: x => new SearchUserDto
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    UserName = x.UserName,
+                    ImagePath = x.ImagePath
+                },
+                predicate: x => x.UserName.Contains(keyword) || x.Name.Contains(keyword),
+                pageIndex: pageIndex,
+                pageSize: 10);
+
+            return users; 
         }
 
-        public Task<int> UserIdFromName(string UserName)
+        public async Task<int> UserIdFromName(string UserName)
         {
-            throw new NotImplementedException();
+            var user = await _unitOfWork.AppUser.GetFilteredFirstorDefault(
+                selector: x => x.Id,
+                predicate: x => x.UserName == UserName);
+
+            return user; ;
         }
 
-        public Task<List<FollowListVm>> UsersFollowers(int id, int pageIndex)
+        public async Task<List<FollowListVm>> UsersFollowers(int id, int pageIndex)
         {
-            throw new NotImplementedException();
+            List<int> followers = await _followService.FollowerList(id);
+
+            var followersList = await _unitOfWork.AppUser.GetFilteredList(selector: y => new FollowListVm
+            {
+                Id = y.Id,
+                ImagePath = y.ImagePath,
+                UserName = y.UserName,
+                Name = y.Name,
+            },
+                predicate: x => followers.Contains(x.Id),
+                include: x => x
+               .Include(z => z.Followers),
+                pageIndex: pageIndex);
+            return followersList; ;
         }
 
-        public Task<List<FollowListVm>> UsersFollowings(int id, int pageIndex)
+        public async Task<List<FollowListVm>> UsersFollowings(int id, int pageIndex)
         {
-            throw new NotImplementedException();
+            List<int> followings = await _followService.FollowingList(id);
+
+            var followingsList = await _unitOfWork.AppUser.GetFilteredList(selector: y => new FollowListVm
+            {
+                Id = y.Id,
+                ImagePath = y.ImagePath,
+                UserName = y.UserName,
+                Name = y.Name,
+            },
+                predicate: x => followings.Contains(x.Id),
+                include: x => x
+               .Include(z => z.Followers),
+                pageIndex: pageIndex);
+            return followingsList; ;
         }
     }
 }
