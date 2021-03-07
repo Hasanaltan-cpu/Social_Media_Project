@@ -16,7 +16,7 @@ namespace SM_ApplicationLayer.Models.DTOs
         public string Name { get; set; }
         public int PostId { get; set; }
 
-        public DateTime dateTime { get; set; }
+        public DateTime CreateDate { get; set; }
 
         public string UserImage { get; set; }
     }

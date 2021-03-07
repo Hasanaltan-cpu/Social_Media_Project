@@ -18,7 +18,7 @@ namespace SM_ApplicationLayer.Models.DTOs
         public int MentionsCount { get; set; }
         public int SharesCount { get; set; }
 
-        public DateTime DateTime { get; set; }
+        public DateTime CreateDate { get; set; }
 
         public string UserName { get; set; }
 
