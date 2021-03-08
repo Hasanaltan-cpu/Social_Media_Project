@@ -1,0 +1,45 @@
+﻿@model RegisterDto
+@{
+    ViewData["Title"] = "Register";
+}
+
+
+
+<div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-8 mx-auto">
+        <div class="card card-signin my-5">
+            <div class="card-body">
+                <h5 class="card-title text-center">Wellcome To Registiration</h5>
+                <form method="post" class="form-signin" asp-action="Register">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-label-group">
+                        <input asp-for="Email" class="form-control" placeholder="E-Mail" />
+                        <label asp-for="Email"></label>
+                    </div>
+                    <div class="form-label-group">
+                        <input asp-for="UserName" class="form-control" placeholder="Username" />
+                        <label asp-for="UserName"></label>
+                    </div>
+                    <div class="form-label-group">
+                        <input asp-for="Name" class="form-control" placeholder="Name" />
+                        <label asp-for="Name"></label>
+                    </div>
+                    <div class="form-label-group">
+                        <input asp-for="Password" class="form-control" placeholder="Password" />
+                        <label asp-for="Password"></label>
+                    </div>
+                    <div class="form-label-group">
+                        <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password" />
+                        <label asp-for="ConfirmPassword"></label>
+                    </div>
+                    <button type="submit" class="btn btn-lg btn-primary btn-block text-uppercase">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts
+ {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+ }
+

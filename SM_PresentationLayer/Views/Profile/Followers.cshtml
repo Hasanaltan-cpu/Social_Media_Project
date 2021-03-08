@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Followers";
+}
+<div class="panel">
+    <div class="panel-heading">
+        <h3 class="panel-title">Followers</h3>
+    </div>
+    <div class="panel-content panel-activity" style="padding-top: 15px">
+        <ul class="panel-activity__list" id="UsersResult" style="margin-top: 0px"></ul>
+        <div id="loader" class="text-center" style="display: none;">
+            <img src='/images/loading.gif'>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        var userName = '@(ViewBag.userName)';
+        var controllerName = '@(ViewContext.RouteData.Values["Controller"].ToString())';
+        var actionName = '@(ViewContext.RouteData.Values["Action"].ToString())';
+    </script>
+    <script src="~/js/get-userslist.js"></script>
+}

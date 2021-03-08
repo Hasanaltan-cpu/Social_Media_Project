@@ -1,0 +1,34 @@
+﻿@model ExternalLoginDto
+@{
+    ViewData["Title"] = "Additional Infos";
+}
+<div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-8 mx-auto">
+        <div class="card card-signin my-5">
+            <div class="card-body">
+                <h5 class="card-title text-center">Additional Infos</h5>
+                <form asp-action="ExternalLoginConfirmation" class="form-signin" asp-route-returnurl="@ViewData["ReturnUrl"]">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-label-group">
+                        <input asp-for="Email" class="form-control" placeholder="E-Mail" />
+                        <label asp-for="Email" class="control-label"></label>
+                    </div>
+                    <div class="form-label-group">
+                        <input asp-for="Name" class="form-control" placeholder="Name" />
+                        <label asp-for="Name" class="control-label"></label>
+                    </div>
+                    <div class="form-label-group">
+                        <input asp-for="UserName" class="form-control" placeholder="Username" />
+                        <label asp-for="UserName" class="control-label"></label>
+                    </div>
+                    <div class="form-label-group">
+                        <input type="submit" value="Register" class="btn btn-lg btn-primary btn-block text-uppercase" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

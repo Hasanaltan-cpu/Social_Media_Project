@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewData["Title"] = ViewBag.userName;
+}
+
+@await Component.InvokeAsync("ProfileSummary",new { UserName=ViewBag.userName}) 
+
+<div class="panel">
+    <div class=" panel-heading">
+        <h3 class="panel-title">What u've been doing</h3>
+    </div>
+    <div class="panel-content panel-activity" style="padding-top:15px">
+        <ul class="panel-activity__list" id="PostList" style="margin-top:0px"></ul>
+        <div id="loader" class="text-center" style="display:none;"></div>
+        <img src='/images/loading.gif' />
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    var userName = '@ViewBag.userName';
+    var authUser = '@(User.Identity.Name)';
+</script>
+<script src="~/js/get-tweets.js"></script>
+}

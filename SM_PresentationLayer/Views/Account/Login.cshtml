@@ -1,0 +1,59 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+@model LoginDto
+@{
+    ViewData["Title"] = "Sign In";
+}
+
+<div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-8 mx-auto">
+        <div class="card card-signin my-5">
+            <div class="card-body">
+                <h5 class="card-title text-center">Sign In</h5>
+                <form class="form-signin" asp-action="Login" asp-route-returnUrl="@ViewData["ReturnUrl"]">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-label-group">
+                        <input asp-for="UserName" class="form-control" placeholder="Username" />
+                        <label asp-for="UserName"></label>
+                    </div>
+
+                    <div class="form-label-group">
+                        <input asp-for="Password" class="form-control" placeholder="Password" />
+                        <label asp-for="Password"></label>
+                    </div>
+                    <div class="custom-control custom-checkbox mb-3">
+                        <label asp-for="RememberMe">
+                            <input asp-for="RememberMe" />
+                            @Html.DisplayNameFor(m => m.RememberMe)
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-lg btn-primary btn-block text-uppercase">Login</button>
+                </form>
+                <hr class="my-4">
+                @{
+                    var providers = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+                }
+                <form asp-action="ExternalLogin" class="form-signin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+                    <div>
+                        <p>
+                            @foreach (var provider in providers)
+                            {
+                                <input type="submit" class="btn btn-lg btn-google btn-block text-uppercase" value="@provider.Name" name="provider" />
+                            }
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
+
+
+
+
