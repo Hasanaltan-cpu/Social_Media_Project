@@ -10,8 +10,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SM_ApplicationLayer.Hubs;
 using SM_ApplicationLayer.Models.DTOs;
 using SM_ApplicationLayer.Validation.FluentValidation;
+using SM_DomainLayer.Entities.Concrete;
 using SM_InfrastuctureLayer.Context;
 using SM_IoCLayer;
 
@@ -26,7 +28,7 @@ namespace SM_PresentationLayer
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+     
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -35,15 +37,23 @@ namespace SM_PresentationLayer
 
             services.RegisterServices();//This is for using Services.
 
+            services.AddSignalR();
 
+            //services.AddAuthentication().AddGoogle(options =>
+            //{
+            //    IConfigurationSection googleAuthNSection =
+            //        Configuration.GetSection("Authentication:Google");
+            //    options.ClientId = googleAuthNSection["ClientId"];
+            //    options.ClientSecret = googleAuthNSection["ClientSecret"];
+            //});
+
+           
             services.AddAuthentication().AddGoogle(options =>
             {
-                IConfigurationSection googleAuthNSection =
-                    Configuration.GetSection("Authentication:Google");
-                options.ClientId = googleAuthNSection["ClientId"];
-                options.ClientSecret = googleAuthNSection["ClientSecret"];
+                IConfigurationSection googleAuth = Configuration.GetSection("Authentication:Google");
+                options.ClientId = "15652654321";
+                options.ClientSecret = "123asdasew3123123";
             });
-
             services.AddControllersWithViews().AddNewtonsoftJson()
                .AddFluentValidation();
 
@@ -51,9 +61,10 @@ namespace SM_PresentationLayer
             services.AddTransient<IValidator<LoginDto>, LoginValidation>();
             services.AddTransient<IValidator<ExternalLoginDto>, ExternalLoginValidation>();
             services.AddTransient<IValidator<SendPostDto>, PostValidation>();
+
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+       
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -66,6 +77,11 @@ namespace SM_PresentationLayer
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseSignalR(route =>
+            {
+                route.MapHub<ChatHub>("/Home/Index");
+            });
 
             app.UseRouting();
 

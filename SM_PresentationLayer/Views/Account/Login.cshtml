@@ -2,15 +2,46 @@
 @inject SignInManager<AppUser> SignInManager
 @inject UserManager<AppUser> UserManager
 @model LoginDto
+
 @{
     ViewData["Title"] = "Sign In";
+    Layout = null;
 }
 
-<div class="row">
-    <div class="col-sm-9 col-md-7 col-lg-8 mx-auto">
-        <div class="card card-signin my-5">
-            <div class="card-body">
-                <h5 class="card-title text-center">Sign In</h5>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Facebook | Sign in</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Font Awesome -->
+
+    <link href="~/asset/css/all.min.css" rel="stylesheet" />
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- icheck bootstrap -->
+
+    <link href="~/asset/css/icheck-bootstrap.min.css" rel="stylesheet" />
+    <!-- Theme style -->
+  
+    <link href="~/asset/css/adminlte.min.css" rel="stylesheet" />
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="Login"><b>Face</b>Book</a>
+        </div>
+        <!-- /.login-logo -->
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">All Eyes on u,Wellcome..</p>
+
                 <form class="form-signin" asp-action="Login" asp-route-returnUrl="@ViewData["ReturnUrl"]">
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-label-group">
@@ -29,31 +60,59 @@
                         </label>
                     </div>
 
-                    <button type="submit" class="btn btn-lg btn-primary btn-block text-uppercase">Login</button>
+                    <button type="submit" class="btn btn-lg btn-primary btn-block ">Sign In</button>
                 </form>
-                <hr class="my-4">
-                @{
-                    var providers = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-                }
-                <form asp-action="ExternalLogin" class="form-signin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
-                    <div>
-                        <p>
-                            @foreach (var provider in providers)
-                            {
-                                <input type="submit" class="btn btn-lg btn-google btn-block text-uppercase" value="@provider.Name" name="provider" />
-                            }
-                        </p>
-                    </div>
-                </form>
+
+                <div class="social-auth-links text-center mb-3">
+                    <p>- OR -</p>
+                    <a href="#" class="btn btn-block btn-primary">
+                        <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+                    </a>
+                    @{
+                        var providers = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+                    }
+                    <form asp-action="ExternalLogin" class="form-signin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+                        <div>
+                            <p>
+                                @foreach (var provider in providers)
+                                {
+                                    
+                                    <a href="#" class="btn btn-block btn-danger" value="@provider.Name" name="provider" >
+                                        <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+                                    </a>
+                                  
+                                }
+                            </p>
+                        </div>
+                    </form>
+                   
+                </div>
+                <!-- /.social-auth-links -->
+
+                <p class="mb-1">
+                    <a href="forgot-password.html">I forgot my password</a>
+                </p>
+                <p class="mb-0">
+                    <a href="Register" class="text-center">Register a new membership</a>
+                </p>
             </div>
+            <!-- /.login-card-body -->
         </div>
     </div>
-</div>
+    <!-- /.login-box -->
+    <!-- jQuery -->
+
+    <script src="~/asset/scripts/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+
+    <script src="~/asset/scripts/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+  
+    <script src="~/asset/scripts/adminlte.min.js"></script>
+
+</body>
+</html>
+
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-    }
-
-
-
-
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

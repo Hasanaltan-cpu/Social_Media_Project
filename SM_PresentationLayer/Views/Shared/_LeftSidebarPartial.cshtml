@@ -1,0 +1,13 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+<div class="col-md-3">
+    <div class="list-group">
+        <a class="list-group-item list-group-item-action" asp-controller="Home" asp-action="Index"><i class="fa fa-home" aria-hidden="true"></i><span> Home</span></a>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <a class="list-group-item list-group-item-action" asp-controller="Profile" asp-action="Detail" asp-route-userName="@User.Identity.Name"><i class="fa fa-user" aria-hidden="true"></i><span> Profile</span></a>
+            <a class="list-group-item list-group-item-action" asp-controller="Account" asp-action="EditProfile" asp-route-username="@User.Identity.Name"><i class="fa fa-sliders" aria-hidden="true"></i><span> Settings</span></a>
+        }
+    </div>
+</div>
+

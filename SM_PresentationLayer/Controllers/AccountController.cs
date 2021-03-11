@@ -22,7 +22,7 @@ namespace SM_PresentationLayer.Controllers
         {
             _userService = userService;
         }
-
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View();
@@ -194,5 +194,15 @@ namespace SM_PresentationLayer.Controllers
             else
                 return RedirectToAction(nameof(HomeController.Index), "Home");
         }
+
+        #region Logout Field
+        [HttpPost]
+        public async Task<IActionResult> LogOut()
+        {
+            await _userService.LogOut();
+
+            return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
+        #endregion
     }
 }

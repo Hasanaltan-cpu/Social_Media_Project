@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using SM_ApplicationLayer.AutoMapper;
+using SM_ApplicationLayer.Models.DTOs;
 using SM_ApplicationLayer.Services.Abstract;
 using SM_ApplicationLayer.Services.Concrete;
+using SM_ApplicationLayer.Validation.FluentValidation;
 using SM_DomainLayer.Entities.Concrete;
 using SM_DomainLayer.UnitOfWork;
 using SM_InfrastuctureLayer.Context;
@@ -26,6 +29,7 @@ namespace SM_IoCLayer
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IMentionService, MentionService>();
 
+           
 
             services.AddIdentity<AppUser, AppRole>(x =>
              {

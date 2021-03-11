@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SM_PresentationLayer", "SM_
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SM_ApplicationLayer", "SM_ApplicationLayer\SM_ApplicationLayer.csproj", "{E58F3606-1660-4F63-B675-687CCB433784}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SM_IoCLayer", "SM_IoCLayer\SM_IoCLayer.csproj", "{480318A3-3E53-4E90-969E-53E7A111F5F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SM_IoCLayer", "SM_IoCLayer\SM_IoCLayer.csproj", "{480318A3-3E53-4E90-969E-53E7A111F5F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

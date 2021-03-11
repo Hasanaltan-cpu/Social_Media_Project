@@ -18,20 +18,17 @@ namespace SM_ApplicationLayer.Services.Concrete
     {
 
         private readonly IFollowService _followService;
-        private readonly IPostService _postService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IAppUserService _appUserService;
 
         public PostService(IFollowService followService,
-                            IPostService postService,
                             IUnitOfWork unitOfWork,
                             IMapper mapper,
                             IAppUserService appUserService)
 
         {
             _followService = followService;
-            _postService = postService;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _appUserService = appUserService;

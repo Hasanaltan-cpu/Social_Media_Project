@@ -1,0 +1,19 @@
+﻿@model FollowDto
+
+<input hidden asp-for="FollowerId" />
+<input hidden asp-for=" FollowingId" />
+
+@{ if (Model.isExist)
+    {
+        <button id="UnFollow" onclick="Follow(@Model.isExist.ToString().ToLower())" class="btn btn-rounded btn-info">
+            <i class="fa fa-minus"></i>
+            Unfollow
+        </button>
+    } 
+    else
+	{
+	     <button id="Follow" onclick="Follow(@Model.isExist.ToString().ToLower())" class="btn btn-rounded btn-info">
+             <i class="fa fa-plus"></i>
+             Follow
+         </button>
+	}}

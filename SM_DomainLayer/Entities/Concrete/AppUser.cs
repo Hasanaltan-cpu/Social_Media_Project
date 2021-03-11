@@ -18,8 +18,10 @@ namespace SM_DomainLayer.Entities.Concrete
             Mentions = new List<Mention>();
             Followers = new List<Follow>();
             Followings = new List<Follow>();
+            Messages = new HashSet<Message>();
         }
 
+        public virtual ICollection<Message> Messages { get; set; }
         public string Name { get; set; }
 
         public string ImagePath { get; set; } = "/images/users/default.jpg";

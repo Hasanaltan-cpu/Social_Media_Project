@@ -1,0 +1,15 @@
+﻿@model SendPostDto
+
+<form class="panel-activity__status" id="formAddPost" enctype="multipart/form-data">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div id="postValidation" role="alert"></div>
+    <input hidden asp-for="AppUserId" />
+    <textarea name="Text" id="Text" type="text" placeholder="Let's communicate with your followers.." class="form-control"></textarea>
+    <div class="actions">
+        <div class="btn-group">
+            <label for="Image"><i class="fa fa-image"</label>
+            <input type="file" id="Image" name="Image" style="display:none;" data-toggle="tooltip" accept=".jpg, .jpeg, .png" />
+        </div>
+        <input type="button" id="btnSendPost" class="btn btn-sm btn-rounded btn-info" value="Post" /> 
+    </div>
+</form>

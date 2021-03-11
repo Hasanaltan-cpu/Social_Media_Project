@@ -19,11 +19,12 @@ namespace SM_InfrastuctureLayer.Context
         public DbSet<Like> Likes { get; set; }
         public DbSet<Share> Shares { get; set; }
         public DbSet<Follow> Follows { get; set; }
-
+        public DbSet<Message> Messages { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<Message>().HasOne<AppUser>(a => a.Sender).WithMany(h => h.Messages).HasForeignKey(d => d.UserId);
             builder.ApplyConfiguration(new PostMap());
             builder.ApplyConfiguration(new MentionMap());
             builder.ApplyConfiguration(new AppUserMap());

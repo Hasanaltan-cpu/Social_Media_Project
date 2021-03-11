@@ -90,17 +90,41 @@ namespace SM_ApplicationLayer.Services.Concrete
 
         public AuthenticationProperties ExternalLogin(string provider, string redirectUrl)
         {
-            throw new NotImplementedException();
+            return _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
         }
 
-        public Task<SignInResult> ExternalLoginSignIn(string provider, string key)
+        public async Task<SignInResult> ExternalLoginSignIn(string provider, string key)
         {
-            throw new NotImplementedException();
+            return await _signInManager.ExternalLoginSignInAsync(provider, key, isPersistent: false, bypassTwoFactor: true);
         }
 
-        public Task<IdentityResult> ExternalRegister(ExternalLoginInfo info, ExternalLoginDto model)
+        public async Task<IdentityResult> ExternalRegister(ExternalLoginInfo info, ExternalLoginDto model)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            IdentityResult result;
+            if (user != null)
+            {
+                result = await _userManager.AddLoginAsync(user, info);
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                }
+            }
+            else
+            {
+                model.Principal = info.Principal;
+                user = _mapper.Map<AppUser>(model);
+                result = await _userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    result = await _userManager.AddLoginAsync(user, info);
+                    if (result.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                    }
+                }
+            }
+            return result; 
         }
 
         public async Task<EditProfileDto> GetById(int id)
@@ -127,9 +151,9 @@ namespace SM_ApplicationLayer.Services.Concrete
             return user; ;
         }
 
-        public Task<ExternalLoginInfo> GetExternalLoginInfo()
+        public async Task<ExternalLoginInfo> GetExternalLoginInfo()
         {
-            throw new NotImplementedException();
+            return await _signInManager.GetExternalLoginInfoAsync();
         }
 
         public async Task<SignInResult> Login(LoginDto model)

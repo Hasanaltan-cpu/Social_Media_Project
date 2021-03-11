@@ -15,7 +15,7 @@ namespace SM_InfrastuctureLayer.UnitOfWork
         private readonly ApplicationDbContext _db;
         public UnitOfWork(ApplicationDbContext db)
         {
-            this._db = db;
+            this._db = db ??
             throw new ArgumentNullException("Database can not be null");
 
         }

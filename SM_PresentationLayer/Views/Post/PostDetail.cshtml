@@ -1,0 +1,76 @@
+﻿@model PostDetailVm
+
+@{
+    ViewData["Title"] = "PostDetail ";
+}
+<div class="panel">
+    <div class="panel-heading">
+        <h3 class="panel-title">Tweet Details</h3>
+    </div>
+    <div class="panel-content panel-activity" style="padding-top: 10px">
+
+        <ul class="panel-activity__list" style="margin-top: 0px">
+            <li>
+                <i class="activity__list__icon fa fa-question-circle-o"></i>
+                <div class="activity__list__header">
+                    <img src="@Model.UserImage" alt="" />
+                    <a asp-controller="Profile" asp-action="Detail" asp-route-userName="@Model.UserName">@Model.Name</a> @@@Model.UserName
+                </div>
+                <div class="activity__list__body entry-content">
+                    <p>
+                        @Model.Text
+                    </p>
+                    @if (Model.ImagePath != null)
+                    {
+                        <ul class="gallery"><li><img src=@Model.ImagePath alt="" /></li></ul>
+                    }
+                </div>
+                <div class="activity__list__footer">
+                    @if (Model.isLiked)
+                    {
+                        <a onclick="Unlike(@Model.Id)" id="@Model.Id"> <i class="fa fa-heart"></i><span id="likecount_@Model.Id">@Model.LikesCount</span></a>
+                    }
+                    else
+                    {
+                        <a onclick="Like(@Model.Id)" id="@Model.Id"> <i class="fa fa-heart-o"></i><span id="likecount_@Model.Id">@Model.LikesCount</span></a>
+                    }
+                    <a> <i class="fa fa-comments"></i>@Model.MentionsCount</a>
+                    <a> <i class="fa fa-share"></i>@Model.SharesCount</a>
+                    <span> <i class="fa fa-clock"></i>@Model.CreateDate</span>
+                </div>
+            </li>
+        </ul>
+   
+        
+    <div style="margin-top: 20px">
+
+        @foreach (var item in Model.Mentions)
+        {
+
+            <li id="mentionId" style="margin-top: 10px; font-size:14px">
+                <div class="comment_header">
+                    <img src="@item.UserImage" alt="" />
+                    <a asp-controller="Profile" asp-action="Detail" asp-route-userName="@item.UserName">@item.Name</a> @@@item.UserName
+                    <span class="pull-right"> <i class="fa fa-clock"></i>@Model.CreateDate</span>
+                </div>
+                <div class="comment_body">
+                    <p>
+                        @item.Text
+                    </p>
+                </div>
+            </li>
+
+        }
+    </div>
+</div>
+    
+    <form class="panel-activity__status" id="formMentionTweet" style="padding-top: 20px">
+        <div id="tweetValidation" role="alert"></div>
+        <input hidden asp-for="Id" />
+        <textarea name="Text" id="Text" type="text" placeholder="Add mention..." class="form-control"></textarea>
+        <div class="actions">
+            <input type="button" id="btnSendMention" class="btn btn-sm btn-rounded btn-info" value="Post">
+        </div>
+    </form>
+</div>
+

@@ -15,4 +15,8 @@
     <ProjectReference Include="..\SM_InfrastuctureLayer\SM_InfrastuctureLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="AutoFac\" />
+  </ItemGroup>
+
 </Project>
