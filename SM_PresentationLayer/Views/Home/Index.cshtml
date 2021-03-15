@@ -1,22 +1,30 @@
 ﻿
+
+
 @{
     ViewData["Title"] = "Home Page";
-   
+
+
 }
 
 
 <div class="panel">
     <div class="panel-heading">
-        <h3 class="panel-title">Activity Feed</h3>
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <h3 class="panel-title">Wellcome To FaceBook</h3>
+        }
+       
     </div>
     <div class="panel-content panel-activity">
         @if (User.Identity.IsAuthenticated)
         {
+            <h3 class="panel-title">Activity Feed</h3>
             @await Component.InvokeAsync("AddPost")
         }
 
 
-        <ul class="panel-activity__list" id="PostsList">
+        <ul class="panel-activity__list" id="loadPostList">
         </ul>
         <div id="loader" class="text-center" style="display: none;">
             <img src='/images/loading.gif'>
@@ -24,8 +32,11 @@
     </div>
 </div>
 
+
+
+<script src="~/js/get-posts.js"></script>
+
 @section Scripts {
-    <script src="~/js/get-posts.js"></script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }

@@ -47,6 +47,7 @@ namespace SM_PresentationLayer
             //    options.ClientSecret = googleAuthNSection["ClientSecret"];
             //});
 
+          
            
             services.AddAuthentication().AddGoogle(options =>
             {

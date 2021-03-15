@@ -18,6 +18,7 @@ namespace SM_PresentationLayer.ViewComponents
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
             int userId = Convert.ToInt32(claim.Value);
             var post = new SendPostDto();
+            post.AppUserId = userId;
             
             
             return View(post);

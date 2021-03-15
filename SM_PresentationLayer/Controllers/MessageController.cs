@@ -24,7 +24,7 @@ namespace SM_PresentationLayer.Controllers
         }
         [Authorize]
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Messenger()
         {
             var currentUser = await _userManager.GetUserAsync(User);
             if (User.Identity.IsAuthenticated)
@@ -33,7 +33,7 @@ namespace SM_PresentationLayer.Controllers
             }
             
             var messages = await _context.Messages.ToListAsync();
-            return View();
+            return View(messages);
         }
 
 

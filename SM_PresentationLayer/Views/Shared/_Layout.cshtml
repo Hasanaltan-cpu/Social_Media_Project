@@ -57,6 +57,11 @@
                             <button type="submit" class="btn  btn-secondary btn-sm">Profile</button>
                         </form>
                     </li>
+                    <li class="nav-item">
+                        <form method="post" asp-controller="Message" asp-action="Messenger" asp-route-userName="@User.Identity.Name">
+                            <button type="submit" class="btn btn-secondary btn-sm">Messenger</button>
+                        </form>
+                    </li>
                 }
                 else
                 {

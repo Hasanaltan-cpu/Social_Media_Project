@@ -29,7 +29,7 @@ namespace SM_PresentationLayer.Controllers
 
         [HttpPost]
         public async Task<IActionResult> AddPost(SendPostDto model)
-        {
+         {
             if (ModelState.IsValid) 
             {
                 if (model.AppUserId==User.GetUserId())

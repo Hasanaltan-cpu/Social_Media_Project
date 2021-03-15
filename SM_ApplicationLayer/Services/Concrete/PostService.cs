@@ -17,9 +17,10 @@ namespace SM_ApplicationLayer.Services.Concrete
     public class PostService : IPostService
     {
 
-        private readonly IFollowService _followService;
+        
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IFollowService _followService;
         private readonly IAppUserService _appUserService;
 
         public PostService(IFollowService followService,
@@ -28,9 +29,10 @@ namespace SM_ApplicationLayer.Services.Concrete
                             IAppUserService appUserService)
 
         {
-            _followService = followService;
+           
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _followService = followService;
             _appUserService = appUserService;
 
         }
@@ -46,11 +48,18 @@ namespace SM_ApplicationLayer.Services.Concrete
                     image.Save("wwwroot/images/posts/" + name + ".jpg");
                     model.ImagePath = ("/images/posts/" + name + ".jpg");
                 }
+
                 var post = _mapper.Map<SendPostDto, Post>(model);
                 await _unitOfWork.Post.Add(post);
                 await _unitOfWork.Commit();
-
             }
+            else
+            {
+                var post = _mapper.Map<SendPostDto, Post>(model);
+                await _unitOfWork.Post.Add(post);
+                await _unitOfWork.Commit();
+            }
+
 
         }
 
