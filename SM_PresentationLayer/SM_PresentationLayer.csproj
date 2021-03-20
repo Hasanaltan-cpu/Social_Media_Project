@@ -23,8 +23,4 @@
     <ProjectReference Include="..\SM_IoCLayer\SM_IoCLayer.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\asset\fonts\" />
-  </ItemGroup>
-
 </Project>

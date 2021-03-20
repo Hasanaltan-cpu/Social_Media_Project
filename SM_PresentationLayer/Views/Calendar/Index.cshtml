@@ -1,0 +1,162 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Facebook | Calendar</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+
+    <link href="~/calendar/css/all.min.css" rel="stylesheet" />
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- fullCalendar -->
+    <link href="~/calendar/css/main.min.css" rel="stylesheet" />
+    <link href="~/calendar/css/timegrid/main.min.css" rel="stylesheet" />
+    <link href="~/calendar/css/daygrid/main.min.css" rel="stylesheet" />
+    <link href="~/calendar/css/bootstrap/main.min.css" rel="stylesheet" />
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition sidebar-mini">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Calendar</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" asp-route-userName="@User.Identity.Name">Home</a></li>
+                            <li class="breadcrumb-item active">Calendar</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="sticky-top mb-3">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Schedule Your Events</h4>
+                                </div>
+                                <div class="card-body">
+                                    <!-- the events -->
+                                    <div id="external-events">
+                                        <div class="external-event bg-success">Lunch</div>
+                                        <div class="external-event bg-warning">Go home</div>
+                                        <div class="external-event bg-info">Do homework</div>
+                                        <div class="external-event bg-primary">Birthday</div>
+                                        <div class="external-event bg-danger">Sleep </div>
+                                        <div class="checkbox">
+                                            <label for="drop-remove">
+                                                <input type="checkbox" id="drop-remove">
+                                                remove after drop
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Special Event</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
+                                        <!--<button type="button" id="color-chooser-btn" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown">Color <span class="caret"></span></button>-->
+                                        <ul class="fc-color-picker" id="color-chooser">
+                                            <li><a class="text-primary" href="#"><i class="fas fa-square"></i></a></li>
+                                            <li><a class="text-warning" href="#"><i class="fas fa-square"></i></a></li>
+                                            <li><a class="text-success" href="#"><i class="fas fa-square"></i></a></li>
+                                            <li><a class="text-danger" href="#"><i class="fas fa-square"></i></a></li>
+                                            <li><a class="text-muted" href="#"><i class="fas fa-square"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <!-- /btn-group -->
+                                    <div class="input-group">
+                                        <input id="new-event" type="text" class="form-control" placeholder="Event Title">
+
+                                        <div class="input-group-append">
+                                            <button id="add-new-event" type="button" class="btn btn-primary">Add</button>
+                                        </div>
+                                        <!-- /btn-group -->
+                                    </div>
+                                    <!-- /input-group -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-9">
+                        <div class="card card-primary">
+                            <div class="card-body p-0">
+                                <!-- THE CALENDAR -->
+                                <div id="calendar">
+                                    <iframe src="https://calendar.google.com/calendar/htmlembed?src=addressbook%23contacts%40group.v.calendar.google.com&ctz=Europe%2FIstanbul" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+    <!-- ./wrapper -->
+    <!-- jQuery -->
+
+    <script src="~/calendar/js/jquery.min.js"></script>
+    <!-- Bootstrap -->
+
+    <script src="~/calendar/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery UI -->
+
+    <script src="~/calendar/js/jquery-ui.min.js"></script>
+
+    <!-- fullCalendar 2.2.5 -->
+
+    <script src="~/calendar/js/moment.min.js"></script>
+
+    <script src="~/calendar/js/main.min.js"></script>
+
+    <script src="~/calendar/js/daygrid/main.min.js"></script>
+
+    <script src="~/calendar/js/timegrid/main.min.js"></script>
+
+    <script src="~/calendar/js/interaction/main.min.js"></script>
+
+    <script src="~/calendar/js/bootstrap/main.min.js"></script>
+    <!-- Page specific script -->
+    @section Scripts {
+
+        <script src="~/calendar/js/calendarbehaviour.js"></script>
+        }
+    </body>
+</html>

@@ -20,7 +20,7 @@ function loadPostList(pageIndex, userName, authUser) {
 
     $.ajax({
         url: "/Post/GetPosts",
-        type: "POST",
+        type: "Post",
         beforeSend: function () {
             $("#loader").show();
         },
@@ -55,7 +55,7 @@ function loadPostList(pageIndex, userName, authUser) {
                         html += '<a href="/post/' + item.Id + '"> <i class="fa fa-comments"></i>' + item.MentionsCount + '</a><a onclick="DeletePost(' + item.Id + ')" id="' + item.Id + '"> <i class="fa fa-trash"></i></a><span><a href="/post/' + item.Id + '"> <i class="fa fa-clock"></i>' + formatTime(Date.parse(item.CreateDate)) + '</a></span></div></li>';
                     }
                     else {
-                        html += '<a href="/tweet/' + item.Id + '"> <i class="fa fa-comments"></i>' + item.MentionsCount + '</a><a href="#"> <i class="fa fa-share"></i>' + item.SharesCount + '</a><span><a href="/post/' + item.Id + '"> <i class="fa fa-clock"></i>' + formatTime(Date.parse(item.CreateDate)) + '</a></span></div></li>';
+                        html += '<a href="/post/' + item.Id + '"> <i class="fa fa-comments"></i>' + item.MentionsCount + '</a><a href="#"> <i class="fa fa-share"></i>' + item.SharesCount + '</a><span><a href="/post/' + item.Id + '"> <i class="fa fa-clock"></i>' + formatTime(Date.parse(item.CreateDate)) + '</a></span></div></li>';
                     }
 
                 });

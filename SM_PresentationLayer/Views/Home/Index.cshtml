@@ -1,12 +1,11 @@
 ﻿
-
-
 @{
     ViewData["Title"] = "Home Page";
 
 
 }
 
+<link href="~/asset/fonts/fontawesome-free/css/fontawesome.css" rel="stylesheet" />
 
 <div class="panel">
     <div class="panel-heading">
@@ -14,12 +13,13 @@
         {
             <h3 class="panel-title">Wellcome To FaceBook</h3>
         }
-       
+
     </div>
     <div class="panel-content panel-activity">
         @if (User.Identity.IsAuthenticated)
         {
             <h3 class="panel-title">Activity Feed</h3>
+
             @await Component.InvokeAsync("AddPost")
         }
 
@@ -32,11 +32,15 @@
     </div>
 </div>
 
-
-
-<script src="~/js/get-posts.js"></script>
-
 @section Scripts {
+    <script>
+    var userName = '@ViewBag.userName';
+    var authUser = '@(User.Identity.Name)';
+    </script>
+    <script src="~/js/get-posts.js"></script>
+
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+
+

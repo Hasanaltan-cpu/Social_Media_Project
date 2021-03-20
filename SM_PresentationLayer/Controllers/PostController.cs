@@ -57,7 +57,7 @@ namespace SM_PresentationLayer.Controllers
 
         [HttpPost]
 
-        public async Task<IActionResult> GetPosts(int pageIndex,int pageSize,string userName=null)
+        public async Task<IActionResult> GetPosts(int pageIndex,int pageSize,string userName)
         {
             if (userName==null)
             {

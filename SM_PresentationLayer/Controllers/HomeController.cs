@@ -19,20 +19,22 @@ namespace SM_PresentationLayer.Controllers
     {
        
         private readonly ILogger<HomeController> _logger;
-
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<AppUser> _userManager;
         public HomeController(ILogger<HomeController> logger,
                                ApplicationDbContext context,
                                UserManager<AppUser> userManager)
         {
             _logger = logger;
-            
+            _context = context;
+            _userManager = userManager;
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Index()
+        public ActionResult Index()
         {
         
-            return View();
+             return  View();
            
         }
 

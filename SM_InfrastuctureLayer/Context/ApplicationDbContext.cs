@@ -24,7 +24,7 @@ namespace SM_InfrastuctureLayer.Context
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Message>().HasOne<AppUser>(a => a.Sender).WithMany(h => h.Messages).HasForeignKey(d => d.UserId);
+            builder.ApplyConfiguration(new MessageMap());
             builder.ApplyConfiguration(new PostMap());
             builder.ApplyConfiguration(new MentionMap());
             builder.ApplyConfiguration(new AppUserMap());

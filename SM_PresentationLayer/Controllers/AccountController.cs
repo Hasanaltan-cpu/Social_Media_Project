@@ -103,7 +103,9 @@ namespace SM_PresentationLayer.Controllers
                 var user = await _userService.GetById(User.GetUserId());
 
                 if (user == null)
+                {
                     return NotFound();
+                }
 
                 return View(user);
             }
