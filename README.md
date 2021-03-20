@@ -99,7 +99,7 @@ Note:At the user process step,i will use .Net Core Identity class that's why App
     }
     
     
-   What is the InverseProperty? 
+What is the InverseProperty? 
    
     -Inverse Property attribute is used when you need to indicate that navigation property Follower is related to the same foreign key as another navigation property Following.
 
