@@ -90,8 +90,8 @@ Note:At the user process step,i will use .Net Core Identity class that's why App
     }
     
     
-  <h4> What is the InverseProperty? <h4>
-  
+   What is the InverseProperty? 
+   
     -Inverse Property attribute is used when you need to indicate that navigation property Follower is related to the same foreign key as another navigation property Following.
 
 2.3.Create a Repositories folder.In this project,i create methods which async programming for the CRUD operations. For DIP create an Interfaces for each entity.
