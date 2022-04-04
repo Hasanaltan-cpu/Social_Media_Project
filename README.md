@@ -482,5 +482,9 @@ public interface IAppUserService
             return BadRequest("Opps something has been wrong..");
         }
     }
+	  
+	  
+	  
+	  
 
 	  
